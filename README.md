@@ -28,12 +28,13 @@
 6. Serper API key: [Serper](https://serper.dev)
 7. Botunuza bir isim verin, örneğin "destiny". Bu bölüm oldukça önemli çünkü "destiny" olarak hitap ettiğinizde, yapay zeka ile sohbet edebilirsiniz.
 8. Botun verdiği davet linki ile yeni bir sunucu oluşturun ve botu ekleyin.
-
-   * Bot emojileri sunucuya kurar.
-   * Gerekli kanalları ve rolleri oluşturur.
-   * Sunucu ismini ve ayarlarını optimize eder.
 9. Kurulum tamamlandıktan sonra `başlat.bat` dosyasını çalıştırabilirsiniz.
 
 **Kurulum Videosu:**
 
 * Botun kurulum videosu olarak bu YouTube bağlantısını ekledim: [Yakında gelicek](https://www.youtube.com) 
+
+---
+
+Hata bulursanız:
+[Discord sunucumuza gelin](https://discord.gg/bJjyTssWwK)
