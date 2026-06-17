@@ -1,0 +1,223 @@
+{
+  "parts": {
+    "attack": {
+      "common": [
+        { "emoji": "🗡️", "desc": "Keskin darbe", "stats": { "atk": 2 } },
+        { "emoji": "🪓", "desc": "Balta savuruşu", "stats": { "atk": 3 } },
+        {
+          "emoji": "🏹",
+          "desc": "İsabetli ok",
+          "stats": { "atk": 2, "mag": 1 }
+        },
+        { "emoji": "🥊", "desc": "Seri yumruk", "stats": { "atk": 2 } },
+        { "emoji": "🔱", "desc": "Zıpkın saplaması", "stats": { "atk": 3 } },
+        { "emoji": "🏏", "desc": "Sert vuruş", "stats": { "atk": 2 } },
+        { "emoji": "🪃", "desc": "Bumerang fırlatışı", "stats": { "atk": 2 } },
+        {
+          "emoji": "🦯",
+          "desc": "Asa dürtüşü",
+          "stats": { "atk": 1, "mag": 1 }
+        }
+      ],
+      "rare": [
+        { "emoji": "⚔️", "desc": "Çift kılıç kombosu", "stats": { "atk": 5 } },
+        {
+          "emoji": "🧨",
+          "desc": "Patlayıcı hamle",
+          "stats": { "atk": 3, "mag": 2 }
+        },
+        { "emoji": "🏹", "desc": "Delici ok", "stats": { "atk": 4 } },
+        { "emoji": "🔨", "desc": "Balyoz darbesi", "stats": { "atk": 5 } },
+        { "emoji": "🪚", "desc": "Testere kesiği", "stats": { "atk": 4 } },
+        {
+          "emoji": "⛏️",
+          "desc": "Derin kazma",
+          "stats": { "atk": 4, "def": 1 }
+        },
+        { "emoji": "🔫", "desc": "Barutlu atış", "stats": { "atk": 5 } }
+      ],
+      "epic": [
+        {
+          "emoji": "🔥",
+          "desc": "Alev dokunuşu",
+          "stats": { "atk": 6, "mag": 2 }
+        },
+        { "emoji": "🦂", "desc": "Zehirli hamle", "stats": { "atk": 7 } },
+        { "emoji": "⚔️", "desc": "Usta kombosu", "stats": { "atk": 6 } },
+        { "emoji": "🦈", "desc": "Köpekbalığı ısırığı", "stats": { "atk": 8 } },
+        { "emoji": "🦁", "desc": "Aslan pençesi", "stats": { "atk": 7 } },
+        {
+          "emoji": "🦅",
+          "desc": "Yırtıcı pike",
+          "stats": { "atk": 6, "mag": 2 }
+        },
+        {
+          "emoji": "⚡",
+          "desc": "Yıldırım çarpması",
+          "stats": { "atk": 5, "mag": 3 }
+        }
+      ],
+      "legendary": [
+        {
+          "emoji": "☄️",
+          "desc": "Kuyruklu yıldız darbesi",
+          "stats": { "atk": 9, "mag": 3 }
+        },
+        { "emoji": "🐉", "desc": "Ejder pençesi", "stats": { "atk": 10 } },
+        {
+          "emoji": "🌋",
+          "desc": "Volkanik patlama",
+          "stats": { "atk": 11, "mag": 2 }
+        },
+        { "emoji": "⚔️", "desc": "Kutsal kılıç dansı", "stats": { "atk": 12 } },
+        {
+          "emoji": "👹",
+          "desc": "İblis öfkesi",
+          "stats": { "atk": 10, "def": 2 }
+        }
+      ]
+    },
+    "armor": {
+      "common": [
+        { "emoji": "🛡️", "desc": "Basit kalkan", "stats": { "def": 2 } },
+        {
+          "emoji": "🧥",
+          "desc": "Kalın pelerin",
+          "stats": { "def": 1, "mag": 1 }
+        },
+        { "emoji": "🪖", "desc": "Kask", "stats": { "def": 2 } },
+        { "emoji": "🧱", "desc": "Sert duruş", "stats": { "def": 3 } },
+        { "emoji": "👞", "desc": "Deri bot", "stats": { "def": 1 } },
+        {
+          "emoji": "🧤",
+          "desc": "Korumalı eldiven",
+          "stats": { "def": 1, "atk": 1 }
+        },
+        { "emoji": "🪵", "desc": "Odunsu deri", "stats": { "def": 2 } },
+        { "emoji": "🧵", "desc": "Örme zırh", "stats": { "def": 2 } }
+      ],
+      "rare": [
+        {
+          "emoji": "🛡️",
+          "desc": "Güçlendirilmiş kalkan",
+          "stats": { "def": 4 }
+        },
+        {
+          "emoji": "🥋",
+          "desc": "Dövüş zırhı",
+          "stats": { "def": 3, "atk": 1 }
+        },
+        { "emoji": "🪖", "desc": "Çelik kask", "stats": { "def": 4 } },
+        { "emoji": "⛓️", "desc": "Zincir zırh", "stats": { "def": 5 } },
+        { "emoji": "🥾", "desc": "Ağır postal", "stats": { "def": 4 } },
+        { "emoji": "🐢", "desc": "Kaplumbağa kabuğu", "stats": { "def": 5 } },
+        { "emoji": "👕", "desc": "Demir yelek", "stats": { "def": 4 } }
+      ],
+      "epic": [
+        { "emoji": "🦾", "desc": "Zırhlı kol", "stats": { "def": 6 } },
+        { "emoji": "🧱", "desc": "Kaya gibi", "stats": { "def": 7 } },
+        {
+          "emoji": "🛡️",
+          "desc": "Efsunlu kalkan",
+          "stats": { "def": 6, "mag": 1 }
+        },
+        { "emoji": "🐊", "desc": "Timsah derisi zırh", "stats": { "def": 7 } },
+        { "emoji": "💎", "desc": "Elmas göğüslük", "stats": { "def": 8 } },
+        {
+          "emoji": "🎐",
+          "desc": "Rüzgar zırhı",
+          "stats": { "def": 6, "mag": 2 }
+        },
+        {
+          "emoji": "👑",
+          "desc": "Kraliyet miğferi",
+          "stats": { "def": 7, "atk": 1 }
+        }
+      ],
+      "legendary": [
+        { "emoji": "🏰", "desc": "Kale savunması", "stats": { "def": 10 } },
+        {
+          "emoji": "🛡️",
+          "desc": "Kadim kalkan",
+          "stats": { "def": 9, "mag": 2 }
+        },
+        { "emoji": "🔱", "desc": "Atlantis zırhı", "stats": { "def": 11 } },
+        {
+          "emoji": "🌌",
+          "desc": "Kozmik kalkan",
+          "stats": { "def": 10, "mag": 3 }
+        },
+        { "emoji": "🦏", "desc": "Gergedan metaneti", "stats": { "def": 12 } }
+      ]
+    },
+    "magic": {
+      "common": [
+        { "emoji": "✨", "desc": "Parıltı", "stats": { "mag": 2 } },
+        { "emoji": "🔮", "desc": "Sezgi", "stats": { "mag": 3 } },
+        { "emoji": "🧪", "desc": "Basit iksir", "stats": { "mag": 2 } },
+        { "emoji": "⚡", "desc": "Kıvılcım", "stats": { "mag": 2, "atk": 1 } },
+        { "emoji": "🕯️", "desc": "Mum ışığı", "stats": { "mag": 2 } },
+        {
+          "emoji": "🌱",
+          "desc": "Filizlenme",
+          "stats": { "mag": 2, "def": 1 }
+        },
+        { "emoji": "💧", "desc": "Su damlası", "stats": { "mag": 2 } },
+        { "emoji": "🌬️", "desc": "Hafif esinti", "stats": { "mag": 3 } }
+      ],
+      "rare": [
+        { "emoji": "⚡", "desc": "Yıldırım", "stats": { "mag": 5 } },
+        { "emoji": "🌙", "desc": "Ay büyüsü", "stats": { "mag": 4, "def": 1 } },
+        { "emoji": "🧿", "desc": "Nazar", "stats": { "mag": 4 } },
+        { "emoji": "🌊", "desc": "Su dalgası", "stats": { "mag": 5 } },
+        {
+          "emoji": "🌿",
+          "desc": "Doğa lütfu",
+          "stats": { "mag": 4, "def": 2 }
+        },
+        {
+          "emoji": "🪵",
+          "desc": "Kök sarmaşığı",
+          "stats": { "mag": 4, "atk": 1 }
+        },
+        { "emoji": "🍄", "desc": "Mantar zehri", "stats": { "mag": 5 } }
+      ],
+      "epic": [
+        { "emoji": "🌪️", "desc": "Kasırga", "stats": { "mag": 7 } },
+        {
+          "emoji": "🔥",
+          "desc": "Alev büyüsü",
+          "stats": { "mag": 6, "atk": 2 }
+        },
+        { "emoji": "🕸️", "desc": "Ağ tuzağı", "stats": { "mag": 6, "def": 1 } },
+        {
+          "emoji": "❄️",
+          "desc": "Buz fırtınası",
+          "stats": { "mag": 7, "def": 1 }
+        },
+        { "emoji": "☀️", "desc": "Güneş patlaması", "stats": { "mag": 8 } },
+        { "emoji": "🦚", "desc": "İllüzyon", "stats": { "mag": 7 } },
+        {
+          "emoji": "🪐",
+          "desc": "Yerçekimi bükme",
+          "stats": { "mag": 6, "def": 2 }
+        }
+      ],
+      "legendary": [
+        { "emoji": "🌟", "desc": "Yıldız yağmuru", "stats": { "mag": 10 } },
+        {
+          "emoji": "🕳️",
+          "desc": "Kara delik",
+          "stats": { "mag": 9, "def": 2 }
+        },
+        { "emoji": "👁️", "desc": "İlahi öngörü", "stats": { "mag": 11 } },
+        {
+          "emoji": "🐦",
+          "desc": "Anka külleri",
+          "stats": { "mag": 10, "atk": 3 }
+        },
+        { "emoji": "☯️", "desc": "Kaos ve Düzen", "stats": { "mag": 12 } }
+      ]
+    }
+  }
+}
