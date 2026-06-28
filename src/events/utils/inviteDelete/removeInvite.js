@@ -1,12 +1,14 @@
 module.exports = async (client, invite) => {
   try {
-    const guildId = invite.guild.id;
-    const cached = client.invites.get(guildId);
-    if (!cached) return;
+    const guildId = invite?.guild?.id;
+    if (!guildId) return;
 
-    cached.delete(invite.code);
-    client.invites.set(guildId, cached);
+    const cached = client.invites.get(guildId);
+
+    if (cached && cached.has(invite.code)) {
+      cached.delete(invite.code);
+    }
   } catch (err) {
-    console.error("[InviteDelete] Hata:", err);
+    console.error('[InviteDelete] Hata:', err);
   }
 };

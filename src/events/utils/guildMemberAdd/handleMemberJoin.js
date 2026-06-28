@@ -31,7 +31,7 @@ module.exports = async (client, member) => {
 
       const updated = new Map();
       newInv.forEach((i) =>
-        updated.set(i.code, { uses: i.uses, inviter: i.inviter?.id })
+        updated.set(i.code, { uses: i.uses, inviter: i.inviter?.id }),
       );
       client.invites.set(guildId, updated);
     } catch (err) {
@@ -40,9 +40,11 @@ module.exports = async (client, member) => {
   }
 
   try {
-    if (inviterId)
+    if (inviterId) {
       await client.db.set(`inviter_${guildId}_${member.user.id}`, inviterId);
-    else await client.db.set(`inviter_${guildId}_${member.user.id}`, null);
+    } else {
+      await client.db.set(`inviter_${guildId}_${member.user.id}`, 'Bilinmiyor');
+    }
   } catch (err) {
     console.error('[GGA] inviter kaydedilemedi:', err);
   }
@@ -57,13 +59,13 @@ module.exports = async (client, member) => {
 
   if (roleIdsToAdd.length) {
     const validRoleIds = roleIdsToAdd.filter((id) =>
-      member.guild.roles.cache.has(id)
+      member.guild.roles.cache.has(id),
     );
     if (validRoleIds.length) {
       member.roles
         .add(validRoleIds)
         .catch((err) =>
-          console.error(`[AutoRole] ${member.user.tag} rol eklenemedi:`, err)
+          console.error(`[AutoRole] ${member.user.tag} rol eklenemedi:`, err),
         );
       await new Promise((r) => setTimeout(r, 250));
     }
@@ -80,7 +82,7 @@ module.exports = async (client, member) => {
     member
       .setNickname(nickname)
       .catch((err) =>
-        console.error(`[AutoName] ${member.user.tag} isim ayarlanamadı:`, err)
+        console.error(`[AutoName] ${member.user.tag} isim ayarlanamadı:`, err),
       );
     await new Promise((r) => setTimeout(r, 250));
   }
@@ -94,7 +96,7 @@ module.exports = async (client, member) => {
         /\$katılım/g,
         member.joinedAt
           ? member.joinedAt.toLocaleDateString()
-          : new Date().toLocaleDateString()
+          : new Date().toLocaleDateString(),
       )
       .replace(/\$davet/g, inviterId ? `<@${inviterId}>` : 'Bilinmiyor');
 
@@ -118,7 +120,7 @@ module.exports = async (client, member) => {
       }
     } else {
       console.warn(
-        `[GGA] incomingChannel bulunamadı: ${ggsConfig.incomingChannel}`
+        `[GGA] incomingChannel bulunamadı: ${ggsConfig.incomingChannel}`,
       );
     }
   }

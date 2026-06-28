@@ -1,8 +1,14 @@
 const fs = require('fs');
 const path = require('path');
 const { QuickDB } = require('quick.db');
-const { Client, Intents } = require('discord.js');
+const { Client, Intents, MessageEmbed, MessageActionRow, MessageButton } = require('discord.js');
 const botConfig = require('./src/botConfig.js');
+
+const C_GREEN = '\x1b[32m';
+const C_YELLOW = '\x1b[33m';
+const C_RED = '\x1b[31m';
+const C_CYAN = '\x1b[36m';
+const C_RESET = '\x1b[0m';
 
 const token = botConfig.token;
 if (!token) {
@@ -39,7 +45,7 @@ async function safeDbSet(db, key, value, label) {
 }
 
 client.once('ready', async () => {
-  console.log(`Bot hazır: ${client.user.tag}`);
+  console.log(`${C_CYAN}Bot hazır: ${client.user.tag}${C_RESET}`);
 
   const prefix = botConfig.prefix || 'k!';
   const bName = botConfig.botname || client.user.username;
@@ -60,7 +66,7 @@ client.once('ready', async () => {
 
       try {
         const webhook = await channel.createWebhook(webhookName, {
-          avatar: webhookAvatar || client.user.displayAvatarURL(),
+          avatar: fs.existsSync(webhookAvatarPath) ? webhookAvatarPath : client.user.displayAvatarURL(),
         });
 
         for (const content of contentArr) {
@@ -165,6 +171,7 @@ client.once('ready', async () => {
       mode: 'block',
       commands: [
         'social',
+        'connect4',
         'connectfour',
         'resfebe',
         'chaptcha',
@@ -181,6 +188,8 @@ client.once('ready', async () => {
         'qrkodoluştur',
         'harita',
         'bildir',
+        'afk',
+        'desnet',
       ],
       categories: [],
     });
@@ -207,8 +216,8 @@ client.once('ready', async () => {
       },
       { id: createdChannels['❓・açıkla'], cmds: ['acikla'] },
       { id: createdChannels['💯・resfebe'], cmds: ['resfebe'] },
-      { id: createdChannels['⚽・connect4'], cmds: ['connect4'] },
-      { id: createdChannels['📻・desnet'], cmds: ['desnet'] },
+      { id: createdChannels['⚽・connect4'], cmds: ['connectfour'] },
+      { id: createdChannels['📻・desnet'], cmds: ['social'] },
       { id: createdChannels['🌙'], cmds: ['afk'] },
     ];
 
@@ -221,7 +230,19 @@ client.once('ready', async () => {
         });
       }
     }
-
+    const sohbetChannelId = createdChannels['💬・sohbet'];
+    if (sohbetChannelId) {
+      await client.db.set(`kkRule_channel_${guild.id}_${sohbetChannelId}`, {
+        mode: 'all',
+        commands: [],
+        categories: [],
+      });
+    }
+    const aiChatChannelId = createdChannels['🤖・ai・chat'];
+    if (aiChatChannelId) {
+      const channelChatKey = `ai_chat_channel_${aiChatChannelId}`;
+      await client.db.set(channelChatKey, 'active');
+    }
     await safeDbSet(
       client.db,
       `kelime_${guild.id}`,
@@ -313,34 +334,110 @@ client.once('ready', async () => {
 
     const ticketCh = guild.channels.cache.get(createdChannels['🎟️・ticket']);
     if (ticketCh) {
-      await ticketCh.send(
-        `<@${ownerId}> bu kanalda ${prefix}ticket komutu kullan`,
+      // Ticket paneli veritabanı kaydı
+      await client.db.set(`ticketPanel_${guild.id}`, {
+        channelId: ticketCh.id,
+        title: '🎫 Destek Paneli',
+        description:
+          'Aşağıdaki butona basarak yeni bir destek talebi oluşturabilirsin.',
+      });
+
+      const panelButtons = new MessageActionRow().addComponents(
+        new MessageButton()
+          .setCustomId('ticket_open')
+          .setLabel('🎫 Ticket Aç')
+          .setStyle('PRIMARY'),
       );
+
+      const panelEmbed = new MessageEmbed()
+        .setTitle('🎫 Destek Paneli')
+        .setDescription(
+          'Aşağıdaki butona basarak yeni bir destek talebi oluşturabilirsin.',
+        )
+        .setColor('#57F287')
+        .setFooter({ text: 'Destek talebi oluşturmak için butona bas.' });
+
+      await ticketCh.send({
+        embeds: [panelEmbed],
+        components: [panelButtons],
+      });
     }
 
     const rolAlCh = guild.channels.cache.get(createdChannels['🍭・rol・al']);
+
     if (rolAlCh) {
-      await rolAlCh.send(
-        `<@${ownerId}> bu kanalda\n${prefix}butonrol kur <@&${createdRoles['KELIME']}> ; ⭐ ; <@&${createdRoles['BOM']}> ; 💣 ; <@&${createdRoles['RESFEBE']}> ; 💯 ; <@&${createdRoles['CONNECT4']}> ; 🔢 komutu kullanın`,
-      );
-      await rolAlCh.send(
-        `<@${ownerId}> bu kanalda\n${prefix}butonrol kur <@&${createdRoles['ACIKLA']}> ; ❓ ; <@&${createdRoles['AICHAT']}> ; 🤖 ; <@&${createdRoles['DUYURU']}> ; 🔔 ; <@&${createdRoles['KURALLAR']}> ; 📜 komutu kullanın`,
-      );
-      await rolAlCh.send(
-        `<@${ownerId}> bu kanalda\n${prefix}butonrol kur <@&${createdRoles['BILDIR']}> ; 🗣️ ; <@&${createdRoles['OZELSES']}> ; ➕ ; <@&${createdRoles['GELENGIDEN']}> ; ⚕️ ; <@&${createdRoles['TICKET']}> ; 🎟️ komutu kullanın`,
-      );
-      await rolAlCh.send(
-        `<@${ownerId}> bu kanalda\n${prefix}butonrol kur <@&${createdRoles['FOTOURET']}> ; 📸 ; <@&${createdRoles['DESNET']}> ; 📻 ; <@&${createdRoles['ANIMEONER']}> ; 🔥 ; <@&${createdRoles['KOMUT_BAKIM']}> ; 🛠️ komutu kullanın`,
-      );
-      await rolAlCh.send(
-        `<@${ownerId}> bu kanalda\n${prefix}butonrol kur <@&${createdRoles['18PLUS']}> ; 🔞 ; <@&${createdRoles['18']}> ; 🧑 ; <@&${createdRoles['17']}> ; 👦 ; <@&${createdRoles['16']}> ; 🧒 ; <@&${createdRoles['15']}> ; 👶 komutu kullanın`,
-      );
-      await rolAlCh.send(
-        `<@${ownerId}> bu kanalda\n${prefix}butonrol kur <@&${createdRoles['ALONE']}> ; 👤 ; <@&${createdRoles['COUPLED']}> ; 👥 ; <@&${createdRoles['VALORANT']}> ; 🔫 komutu kullanın`,
-      );
-      await rolAlCh.send(
-        `<@${ownerId}> bu kanalda\n${prefix}butonrol kur <@&${createdRoles['GENSHIN']}> ; 🗡️ ; <@&${createdRoles['CS']}> ; 💣 ; <@&${createdRoles['MC']}> ; ⛏️ ; <@&${createdRoles['ROBLOX']}> ; 🧱 komutu kullanın`,
-      );
+      const roleGroups = [
+        [
+          { roleId: createdRoles['KELIME'], emoji: '⭐' },
+          { roleId: createdRoles['BOM'], emoji: '💣' },
+          { roleId: createdRoles['RESFEBE'], emoji: '💯' },
+          { roleId: createdRoles['CONNECT4'], emoji: '🔢' },
+        ],
+        [
+          { roleId: createdRoles['ACIKLA'], emoji: '❓' },
+          { roleId: createdRoles['AICHAT'], emoji: '🤖' },
+          { roleId: createdRoles['DUYURU'], emoji: '🔔' },
+          { roleId: createdRoles['KURALLAR'], emoji: '📜' },
+        ],
+        [
+          { roleId: createdRoles['BILDIR'], emoji: '🗣️' },
+          { roleId: createdRoles['OZELSES'], emoji: '➕' },
+          { roleId: createdRoles['GELENGIDEN'], emoji: '⚕️' },
+          { roleId: createdRoles['TICKET'], emoji: '🎟️' },
+        ],
+        [
+          { roleId: createdRoles['FOTOURET'], emoji: '📸' },
+          { roleId: createdRoles['DESNET'], emoji: '📻' },
+          { roleId: createdRoles['ANIMEONER'], emoji: '🔥' },
+          { roleId: createdRoles['KOMUT_BAKIM'], emoji: '🛠️' },
+        ],
+        [
+          { roleId: createdRoles['18PLUS'], emoji: '🔞' },
+          { roleId: createdRoles['18'], emoji: '🧑' },
+          { roleId: createdRoles['17'], emoji: '👦' },
+          { roleId: createdRoles['16'], emoji: '🧒' },
+          { roleId: createdRoles['15'], emoji: '👶' },
+        ],
+        [
+          { roleId: createdRoles['ALONE'], emoji: '👤' },
+          { roleId: createdRoles['COUPLED'], emoji: '👥' },
+          { roleId: createdRoles['VALORANT'], emoji: '🔫' },
+        ],
+        [
+          { roleId: createdRoles['GENSHIN'], emoji: '🗡️' },
+          { roleId: createdRoles['CS'], emoji: '💣' },
+          { roleId: createdRoles['MC'], emoji: '⛏️' },
+          { roleId: createdRoles['ROBLOX'], emoji: '🧱' },
+        ],
+      ];
+
+      for (const group of roleGroups) {
+        const panelKey = `butonrol_${guild.id}_${group[0].roleId}`;
+        await client.db.set(panelKey, {
+          channelId: rolAlCh.id,
+          pairs: group,
+        });
+
+        const embed = new MessageEmbed()
+          .setTitle('🎭 Rol Alım Menüsü')
+          .setDescription(
+            'Aşağıdaki butonlara tıklayarak rollerini alabilirsin.',
+          )
+          .setColor('PURPLE');
+
+        const row = new MessageActionRow();
+        group.forEach((p) => {
+          row.addComponents(
+            new MessageButton()
+              .setCustomId(`butonrol_${p.roleId}`)
+              .setLabel(' ')
+              .setEmoji(p.emoji)
+              .setStyle('SECONDARY'),
+          );
+        });
+
+        await rolAlCh.send({ embeds: [embed], components: [row] });
+      }
     }
   }
 
@@ -354,7 +451,7 @@ client.once('ready', async () => {
   }
 
   console.log(
-    'Kurulum tamamlandı. quick.db atamaları ve webhook mesajları başarıyla gönderildi.',
+    `${C_GREEN}✔ Kurulum tamamlandı. quick.db atamaları ve webhook mesajları başarıyla gönderildi.${C_RESET}`
   );
   process.exit(0);
 });

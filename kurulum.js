@@ -15,6 +15,7 @@ let botName = '';
 let PROMPT_OWNER_ID = '';
 let PROMPT_PREFIX = '';
 let PROMPT_GROQ_API = '';
+let PROMPT_GROQ_MODEL = '';
 let PROMPT_SERPER = '';
 let setupStarted = false;
 
@@ -99,7 +100,28 @@ function runSecondStage() {
     PROMPT_PREFIX = await ask('Bot prefixini girin: ');
     PROMPT_OWNER_ID = await ask('Owner ID girin: ');
     PROMPT_GROQ_API = await ask('GROQ API key girin : ');
-    PROMPT_SERPER = await ask('Serper API key girin : ');
+
+    const groqModels = [
+      'llama-3.3-70b-versatile',
+      'llama-3.1-8b-instant',
+      'openai/gpt-oss-120b',
+      'openai/gpt-oss-20b',
+    ];
+
+    console.log('\nLütfen kullanmak istediğiniz GROQ modelini seçin:');
+    groqModels.forEach((m, i) => console.log(`${i + 1}. ${m}`));
+
+    while (true) {
+      const choice = await ask('Seçiminiz (1-4): ');
+      const index = parseInt(choice, 10) - 1;
+      if (index >= 0 && index < groqModels.length) {
+        PROMPT_GROQ_MODEL = groqModels[index];
+        break;
+      }
+      console.log('Geçersiz seçim! Lütfen 1 ile 4 arasında bir sayı girin.');
+    }
+
+    PROMPT_SERPER = await ask('\nSerper API key girin : ');
 
     const client = new Client({
       intents: [
@@ -122,38 +144,65 @@ function runSecondStage() {
             resolveRoot('src', 'emojiler', 'botbanner.jpeg'),
           ]);
 
+          const C_GREEN = '\x1b[32m';
+          const C_YELLOW = '\x1b[33m';
+          const C_RED = '\x1b[31m';
+          const C_CYAN = '\x1b[36m';
+          const C_RESET = '\x1b[0m';
+
           if (fs.existsSync(avatarPath)) {
+            const ext = path.extname(avatarPath).replace('.', '');
+            const mimeType =
+              ext === 'jpg' || ext === 'jpeg' ? 'image/jpeg' : 'image/png';
             const avatarData = fs.readFileSync(avatarPath);
+            const avatarBase64 = `data:${mimeType};base64,${avatarData.toString('base64')}`;
             try {
               await withTokenRetry(client, token, () =>
-                client.user.setAvatar(avatarData),
+                client.user.setAvatar(avatarBase64),
               );
-              console.log('Bot avatarı güncellendi.');
+              console.log(
+                `${C_GREEN}✔ Bot avatarı başarıyla güncellendi.${C_RESET}`,
+              );
             } catch (err) {
-              console.error('Bot avatarı değiştirilemedi:', err.message);
+              console.error(
+                `${C_RED}✖ Bot avatarı değiştirilemedi: ${err.message}${C_RESET}`,
+              );
             }
           } else {
-            console.warn('botpp.png bulunamadı, bot avatarı değiştirilemedi.');
+            console.warn(
+              `${C_YELLOW}⚠ botpp.png bulunamadı, bot avatarı değiştirilemedi.${C_RESET}`,
+            );
           }
 
           if (bannerPath && fs.existsSync(bannerPath)) {
+            const ext = path.extname(bannerPath).replace('.', '');
+            const mimeType =
+              ext === 'jpg' || ext === 'jpeg' ? 'image/jpeg' : 'image/png';
             const bannerData = fs.readFileSync(bannerPath);
+            const bannerBase64 = `data:${mimeType};base64,${bannerData.toString('base64')}`;
+
             try {
               if (typeof client.user.setBanner === 'function') {
                 await withTokenRetry(client, token, () =>
-                  client.user.setBanner(bannerData),
+                  client.user.setBanner(bannerBase64),
                 );
               } else {
                 await withTokenRetry(client, token, () =>
-                  client.user.edit({ banner: bannerData }),
+                  client.user.edit({ banner: bannerBase64 }),
                 );
               }
-              console.log('Bot bannerı güncellendi.');
+              console.log(
+                `${C_GREEN}✔ Bot bannerı başarıyla güncellendi.${C_RESET}`,
+              );
             } catch (err) {
-              console.error('Bot bannerı değiştirilemedi:', err.message);
+              console.error(
+                `${C_RED}✖ Bot bannerı değiştirilemedi: ${err.message}${C_RESET}`,
+              );
             }
           } else {
-            console.warn('botbanner dosyası bulunamadı.');
+            console.warn(
+              `${C_YELLOW}⚠ botbanner dosyası bulunamadı, atlanıyor.${C_RESET}`,
+            );
           }
         } catch (err) {
           console.error(
@@ -287,7 +336,7 @@ function runSecondStage() {
             high: '<:cuvalDestinex:>',
             medium: '<:banknotDestinex:>',
             low: '<:Destinex:>',
-            Aİ: '<:aidestiniex:>',
+            AI: '<:aidestiniex:>',
           },
           slot: {
             spinning: '<a:slotd:>',
@@ -1477,6 +1526,7 @@ function runSecondStage() {
           botname: botName || client.user.username,
           SERPER_API_KEY: PROMPT_SERPER || '',
           GROQ_API_KEY: PROMPT_GROQ_API || '',
+          model: PROMPT_GROQ_MODEL || '',
           supportServer: supportInvite,
           logChannelId: logChannelId,
           debug: true,
@@ -1492,6 +1542,7 @@ function runSecondStage() {
   botname: "${botConfig.botname}",
   SERPER_API_KEY: "${botConfig.SERPER_API_KEY}",
   GROQ_API_KEY: "${botConfig.GROQ_API_KEY}",
+  model: "${botConfig.model}",
   supportServer: "${botConfig.supportServer}",
   logChannelId: "${botConfig.logChannelId}",
   debug: ${botConfig.debug}
